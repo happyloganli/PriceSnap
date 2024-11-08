@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "PriceSnap",
+    "version": "1.0",
+    "description": "Help you to search for relavent products when shopping.",
+    "permissions": ["scripting", "activeTab", "clipboardRead"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.facebook.com/marketplace/item/*"],
+            "js": ["content.js"]
+        }
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    }
+}
