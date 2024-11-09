@@ -1,32 +1,47 @@
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     if (message.type === 'fetch page') {
-//         const url = message.url;
-        
-//         // Use fetch to get the data from the URL
-//         fetch(url)
-//             .then(response => {
-//                 if (!response.ok) {
-//                     throw new Error('Network response was not ok ' + response.statusText);
-//                 }
-//                 return response.json();  // Assuming the response is in JSON format
-//             })
-//             .then(data => {
-//                 // Send the fetched JSON data as the response
-//                 sendResponse({ success: true, data: data });
-//             })
-//             .catch(error => {
-//                 // Handle error and send an error response
-//                 sendResponse({ success: false, error: error.message });
-//             });
+const serverUrl = 'http://localhost:8080/search-links';
 
-//         // Indicate that we will use sendResponse asynchronously
-//         return true;  
-//     }
-// });
+// Function to send a POST request to "/search-links"
+function sendPostRequest(productInfo) {
+  fetch(serverUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(productInfo)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+    return response.json(); // Parse JSON response
+  })
+  .then(result => {
+    console.log('Response from server:', result);
+    // You can process the result here
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === 'showWindow') {
-        console.log('background received show window request');
-        chrome.tabs.sendMessage(sender.tab.id, message);
+    if (message.type === 'search') {
+        const products = [];
+        console.log('background received search request');
+
+        // pop up window
+        chrome.runtime.sendMessage({ type: 'showWindow', payload: products });
+
+        // get product informations
+        chrome.runtime.sendMessage({ type: 'extractProductInfo' }, (productInfo) => {
+            // send products to window
+            try {
+                const productResponse = sendPostRequest(productInfo);
+                const productsToPush = Object.values(productResponse).slice(0, 5);
+                products.push(...productsToPush);
+            } catch (error) {
+                console.error(error);
+            }
+        });
     }
 });
