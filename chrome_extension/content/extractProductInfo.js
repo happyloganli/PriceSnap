@@ -38,3 +38,31 @@ function extractDescription() {
     console.log('retrieve product description: ' + productDescription);
     return productDescription;
 }
+
+// extract product id
+function extractProductId() {
+    const pageUrl = window.location.href;
+    console.log('Current page URL: ' + pageUrl);
+    const productId = pageUrl.split('/')[4];
+    console.log('product id: ' + productId);
+}
+
+// extract product informations when called
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'extractProductInfo') {
+        console.log("receieve call, extract product informations");
+        const platform = 'facebook';
+        const itemID = extractProductId();
+        const title = extractProductName();
+        const details = extractDetails();
+        const description = extractDescription();
+        const productInfo = {
+            platform,
+            itemID,
+            title,
+            details,
+            description
+        };
+        sendResponse(productInfo);
+    }
+});
