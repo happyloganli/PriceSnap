@@ -103,6 +103,16 @@ function showFloatingWindow(products) {
     }, 500); // Check every 500 milliseconds
 }
 
+// display the pop up window when receive a "showWindow" message
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'showWindow') {
+        console.log("receieve call, pop up window");
+        const result = message.payload;
+        showFloatingWindow(result); // Call function in background
+    }
+});
+
+
 // Example usage with empty products array initially
 const products = [];
 showFloatingWindow(products);
