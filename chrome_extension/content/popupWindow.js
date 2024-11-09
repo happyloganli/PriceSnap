@@ -19,10 +19,10 @@ function showFloatingWindow(products) {
     floatingWindow.innerHTML = `
         <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
             <h4 style="margin: 0; font-size: 18px;">Loading Products...</h4>
-            <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExazNxMmNxbmd0bHk0bzlvMmdxcGRsazloNmxzZDl4cmV2YmNmdDljZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IvV2SJ6ukwsAEI9lBa/giphy.gif" 
-                 alt="Loading..." style="width: 100px; height: 100px; margin-top: 10px;">
+            <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXlhaDZ5eHh2NXc5MzVpY3JqazJxMWpycGpueTVzMXBicHdwMHNjcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/emySgWo0iBKWqni1wR/giphy.gif" alt="Loading..." style="width: 100px; height: 100px; margin-top: 10px;">
         </div>
     `;
+    
 
     // Function to generate product cards when products are loaded
     function generateProductCards() {
