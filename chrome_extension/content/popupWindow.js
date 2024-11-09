@@ -59,3 +59,12 @@ function showFloatingWindow(result) {
         floatingWindow.style.cursor = "default"; // Reset cursor
     });
 }
+
+// display the pop up window when receive a "showWindow" message
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'showWindow') {
+        console.log("receieve call, pop up window");
+        const result = message.payload;
+        showFloatingWindow(result); // Call function in background
+    }
+});
