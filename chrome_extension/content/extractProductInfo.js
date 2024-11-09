@@ -43,7 +43,7 @@ function extractDescription() {
 function extractProductId() {
     const pageUrl = window.location.href;
     console.log('Current page URL: ' + pageUrl);
-    const productId = pageUrl.split('/')[4];
+    const productId = pageUrl.split('/')[5];
     console.log('product id: ' + productId);
 }
 
