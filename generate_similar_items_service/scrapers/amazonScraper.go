@@ -1,31 +1,19 @@
-package main
+package scrapers
 
 import (
 	"bytes"
-	"io"
 	"log"
 	"net/http"
-
 	"github.com/PuerkitoBio/goquery"
 )
 
 // amazonScraper scrapes product data from an Amazon page and returns a list of products
-func AmazonScraper(url string) ([]Product) {
-	// Fetch the content of the Amazon product page using http client
-	resp, err := http.Get(url)
-	if err != nil {
-		log.Fatalf("Error fetching the page: %v", err)
-		return nil
-	}
-	defer resp.Body.Close()
-
-	// Read the response body using io.ReadAll (replacing ioutil.ReadAll)
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalf("Error reading response body: %v", err)
-		return nil
-	}
-
+func ScrapeAmazon(url string) ([]Product) {
+	
+	// Make an HTTP GET request to the Amazon page
+	req:= NewRequestBase(url, http.MethodGet, nil)
+	body, err := req.SendRequest()
+	
 	// Load the HTML document into goquery
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
 	if err != nil {
@@ -45,7 +33,8 @@ func AmazonScraper(url string) ([]Product) {
 		price := s.Find(".a-price .a-offscreen").Text()
 
 		// Extract product image
-		imgSrc, _ := s.Find(".s-image").Attr("src")
+		imageLink, _ := s.Find(".s-image").Attr("src")
+		image, _:=req.ImageURLToBase64(imageLink)
 
 		// Extract product link
 		productLink, _ := s.Find(".a-link-normal.s-underline-text.s-underline-link-text.s-link-style").Attr("href")
@@ -59,7 +48,7 @@ func AmazonScraper(url string) ([]Product) {
 		products = append(products, Product{
 			Title:       title,
 			Price:       price,
-			Image:       imgSrc,
+			Image:       image,
 			ProductLink: productLink,
 		})
 	})

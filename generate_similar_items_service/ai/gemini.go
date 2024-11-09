@@ -1,11 +1,10 @@
-package main
+package ai
 
 import (
 	"context"
 	"fmt"
 	"os"
 	"strings"
-
 	"github.com/google/generative-ai-go/genai"
 	"github.com/joho/godotenv"
 	"google.golang.org/api/option"
@@ -55,10 +54,8 @@ func buildResponseString(parts []genai.Part) (string, error) {
 	for _, part := range parts {
 		// Type assertion to directly treat part as genai.Text
 		if textPart, ok := part.(genai.Text); ok {
-			// Now you can safely use textPart as a string
 			builder.WriteString(string(textPart))
 		} else {
-			// Handle the case if it's not of type genai.Text (this should not happen if you're sure it's Text)
 			return "", fmt.Errorf("unexpected part type: %T", part)
 		}
 	}
