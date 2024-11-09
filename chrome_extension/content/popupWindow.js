@@ -1,32 +1,34 @@
-// Function to display the rearch results in a floating window
-function showFloatingWindow(result) {
-    console.log("Displaying floating window with result:", result);
+// Function to display the eBay website from url in a floating window
+function showFloatingWindow(url) {
+    console.log("Displaying floating window with eBay URL:", url);
     const floatingWindow = document.createElement("div");
     floatingWindow.style.position = "fixed";
     floatingWindow.style.top = "20px"; // Distance from the top of the page
     floatingWindow.style.right = "20px"; // Distance from the right of the page
     floatingWindow.style.width = "300px"; // Adjust width as needed
-    floatingWindow.style.padding = "20px";
+    floatingWindow.style.height = "400px"; // Set height for better visibility
+    floatingWindow.style.padding = "0";
     floatingWindow.style.backgroundColor = "#fff";
     floatingWindow.style.borderRadius = "8px";
     floatingWindow.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
     floatingWindow.style.zIndex = "9999"; // Ensure the window is on top
     floatingWindow.style.textAlign = "center";
-    floatingWindow.style.overflow = "auto"; // Allow scrolling if needed
-    floatingWindow.style.maxHeight = "80%"; // Prevent it from growing too large
+    floatingWindow.style.overflow = "hidden"; // Hide overflow to prevent scrollbars
 
     floatingWindow.innerHTML = `
-      <h4>Here are the search results:</h4>
-      <p><strong>${result}</strong></p>
-      <button id="closeFloatingWindow" style="margin-top: 10px; padding: 8px 12px;">Close</button>
+      <div style="padding: 10px; background-color: #f5f5f5; border-bottom: 1px solid #ddd;">
+        <h4 style="margin: 0;">eBay Browser</h4>
+        <button id="closeFloatingWindow" style="float: right; padding: 4px 8px; cursor: pointer;">Close</button>
+      </div>
+      <iframe src="${url}" style="width: 100%; height: calc(100% - 40px); border: none;"></iframe>
     `;
 
     document.body.appendChild(floatingWindow);
-    console.log("Floating window appended to body.");
+    console.log("Floating window with eBay iframe appended to body.");
 
     document.getElementById("closeFloatingWindow").addEventListener("click", () => {
-      console.log("Closing floating window.");
-      floatingWindow.remove();
+        console.log("Closing floating window.");
+        floatingWindow.remove();
     });
 
     // Drag and Drop Implementation
@@ -35,19 +37,17 @@ function showFloatingWindow(result) {
 
     // Function to start dragging
     floatingWindow.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        // Calculate the offset of the mouse from the top-left corner of the floating window
-        offsetX = e.clientX - floatingWindow.getBoundingClientRect().left;
-        offsetY = e.clientY - floatingWindow.getBoundingClientRect().top;
-
-        // Change cursor to indicate dragging
-        floatingWindow.style.cursor = "move";
+        if (e.target.id !== "closeFloatingWindow") { // Ignore if close button is clicked
+            isDragging = true;
+            offsetX = e.clientX - floatingWindow.getBoundingClientRect().left;
+            offsetY = e.clientY - floatingWindow.getBoundingClientRect().top;
+            floatingWindow.style.cursor = "move"; // Change cursor to indicate dragging
+        }
     });
 
     // Function to drag the window
     window.addEventListener("mousemove", (e) => {
         if (isDragging) {
-            // Update the position of the floating window based on the mouse movement
             floatingWindow.style.left = `${e.clientX - offsetX}px`;
             floatingWindow.style.top = `${e.clientY - offsetY}px`;
         }
@@ -59,3 +59,10 @@ function showFloatingWindow(result) {
         floatingWindow.style.cursor = "default"; // Reset cursor
     });
 }
+
+// Expose the functions to be accessible by other
+window.createstyledElement =createstyledElement;window.showFloatingWindow =showFloatingWindow;
+
+
+
+//showFloatingWindow("https://www.ebay.com"); // Pass the eBay URL you want to embed
