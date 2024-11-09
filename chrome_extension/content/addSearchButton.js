@@ -22,7 +22,7 @@ function addSearchButton() {
         searchButton.innerHTML = '<strong>Search</strong>';
         searchButton.addEventListener('click', () => {
             console.log("start search");
-            chrome.runtime.sendMessage({ type: 'search'});
+            chrome.runtime.sendMessage({ type: 'showResultWindow'});
         });
 
         buttonsRootNode.appendChild(searchButton);
