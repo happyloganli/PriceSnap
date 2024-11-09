@@ -1,4 +1,4 @@
-const serverUrl = 'http://localhost:8080/search-links';
+const serverUrl = 'http://localhost:8080/v1/item/search';
 
 // Function to send a POST request to "/search-links"
 function sendPostRequest(productInfo) {
