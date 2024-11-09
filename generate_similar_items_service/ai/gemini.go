@@ -6,18 +6,25 @@ import (
 	"os"
 	"strings"
 	"github.com/google/generative-ai-go/genai"
-	"github.com/joho/godotenv"
 	"google.golang.org/api/option"
 )
 
-// ConnectGeminiAI connects to Gemini AI and generates the search keywords based on the provided prompt.
-func ConnectGeminiAI(ctx context.Context, prompt string) (string, error) {
-	return "CATLINK+automatic+Litterbox+with+Ramp", nil
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-		return "", err
+var mockAIResonse = "CATLINK+automatic+Litterbox+with+Ramp"
+
+func PromptAI(ctx context.Context, prompt string, aiPlatform string) (string, error) {
+	if os.Getenv("DEBUG") == "true" {
+		fmt.Printf("Debug mode enabled. Returning hardcoded search keywords.\n")
+		return mockAIResonse, nil		
 	}
+	if aiPlatform == "gemini" {
+		return requestGemini(ctx, prompt)
+	}
+	return "", fmt.Errorf("unsupported AI platform: %s", aiPlatform)
+}
+
+// ConnectGeminiAI connects to Gemini AI and generates the search keywords based on the provided prompt.
+func requestGemini(ctx context.Context, prompt string) (string, error) {
+
 	// Set up Gemini client
 	client, err := genai.NewClient(ctx, option.WithAPIKey(os.Getenv("GEMINI_API_KEY")))
 	if err != nil {

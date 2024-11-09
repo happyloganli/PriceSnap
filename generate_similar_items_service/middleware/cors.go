@@ -5,11 +5,11 @@ import (
 )
 
 // allowCORS allows cross-origin requests
-func AllowCORS(next http.Handler) http.Handler {
+func AllowCORS(next http.Handler, extensionID string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Set CORS headers to allow your Chrome extension or specific domain
-		w.Header().Set("Access-Control-Allow-Origin", "chrome-extension://blgpcoddhgcpkmkmnepeiddhhecdlino")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Origin", "chrome-extension://"+extensionID)
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 

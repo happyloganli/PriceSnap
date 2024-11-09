@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	. "generate_similar_items_service/ai"
-	. "generate_similar_items_service/scrapers"
+	"generate_similar_items_service/ai"
+	"generate_similar_items_service/scrapers"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -20,7 +21,8 @@ type RequestBody struct {
 }
 
 type Response struct {
-	Products map[string][]Product `json:"products"`
+	SearchKeyWords string                        `json:"searchKeyWords"`
+	Products       map[string][]scrapers.Product `json:"products"`
 }
 
 // SearchLinksGenerator handles the HTTP request and generates Amazon and eBay search links.
@@ -55,7 +57,8 @@ func SearchItemHandler(w http.ResponseWriter, r *http.Request) {
 	products, _ := scrapeProducts(searchKeyWords)
 
 	response := Response{
-		Products: products,
+		SearchKeyWords: searchKeyWords,
+		Products:       products,
 	}
 
 	// Send response
@@ -65,13 +68,13 @@ func SearchItemHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func scrapeProducts(searchKeyWords string) (map[string][]Product, error) {
+func scrapeProducts(searchKeyWords string) (map[string][]scrapers.Product, error) {
 
 	var err error
 	searchKeyWords = strings.Join(strings.Fields(searchKeyWords), "+")
-	products := make(map[string][]Product)
+	products := make(map[string][]scrapers.Product)
 	//products["Amazon"] = ScrapeAmazon(fmt.Sprintf("https://www.amazon.com/s?k=%s", searchKeyWords))
-	products["Ebay"], err = ScrapeEbay(fmt.Sprintf("https://www.ebay.com/sch/%s", searchKeyWords))
+	products["Ebay"], err = scrapers.ScrapeEbay(fmt.Sprintf("https://www.ebay.com/sch/%s", searchKeyWords))
 	if err != nil {
 		return nil, fmt.Errorf("failed to scrape eBay: %v", err)
 	}
@@ -86,7 +89,7 @@ func getSearchKeywords(ctx context.Context, body RequestBody) (string, error) {
 		body.Title, body.Details, body.Description)
 
 	// Call connectGeminiAI to generate the search keywords
-	searchKeywords, err := ConnectGeminiAI(ctx, prompt)
+	searchKeywords, err := ai.PromptAI(ctx, prompt, os.Getenv("AI_PLATFORM"))
 	if err != nil {
 		return "", fmt.Errorf("failed to generate content: %v", err)
 	}
