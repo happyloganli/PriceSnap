@@ -5,8 +5,7 @@
     "description": "Help you to search for relavent products when shopping.",
     "permissions": ["scripting", "activeTab", "clipboardRead"],
     "background": {
-        "service_worker": "background/background.js",
-        "type": "module"
+        "service_worker": "background/background.js"
     },
     "action": {
         "default_popup": "popup.html"

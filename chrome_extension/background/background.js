@@ -1,5 +1,3 @@
-import {sendPostRequest} from './utils.js';
-
 let state = 'idle'; // can be 'fetching', 'success', 'error'
 let fetchResponse = null;
 let fetchTimeout = null;
@@ -14,29 +12,39 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 		// get product info
 		console.log('extract product info');
-		chrome.tabs.sendMessage(sender.tab.id, { type: 'extractProductInfo' }, (response) => {
+		chrome.tabs.sendMessage(sender.tab.id, { type: 'extractProductInfo' }, async (response) => {
 			console.log(response);
-			// Call sendPostRequest to fetch data
-			sendPostRequest(response)
-				.then(response => {
-					// If response is received successfully, update state
-					console.log(response);
-					fetchResponse = Object.values(response);
-					state = 'success';
-				})
-				.catch(error => {
-					// If there's an error, set the state to error
+
+			const serverUrl = 'http://localhost:8080/v1/items/search'
+
+			await fetch(serverUrl, {
+				method: 'POST',
+				headers: {
+				'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(response)
+			})
+			.then(async result => {
+				if (!result.ok) {
+				throw new Error(`Server error: ${result.status}`);
+				}
+				fetchResponse = await result.json();
+				console.log("successfully fetched:", fetchResponse);
+				state = 'success';
+			})
+			.catch(error => {
 					state = 'error';
 					fetchResponse = error;
-					console.log("error fetching");
-				})
-				.finally(() => {
-					clearTimeout(fetchTimeout); // Clear the timeout when done
-				});
+					console.log("error fetching, error:" + error);
+			})
+			.finally(() => {
+				clearTimeout(fetchTimeout); // Clear the timeout when done
+			});
 
 			// Set a timeout to change state to 'error' if not successful in 1 minute
 			fetchTimeout = setTimeout(() => {
 				if (state === 'fetching') {
+					console.log("timeout!");
 					state = 'error';
 					fetchResponse = 'Timeout';
 				}
