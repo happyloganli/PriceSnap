@@ -15,11 +15,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		chrome.tabs.sendMessage(sender.tab.id, { type: 'extractProductInfo' }, async (response) => {
 			console.log(response);
 
-			const serverUrl = 'http://localhost:8080/v1/items/search'
+			const serverUrl = 'https://generatesimilaritemsservice-599683195183.us-west4.run.app/v1/items/search'
 
 			await fetch(serverUrl, {
 				method: 'POST',
 				headers: {
+				'Authorization': 'Bearer 5nNXhs5IVUSspVlwMz6HCtGAy8g2pKPCz3U3ULMBxSYTKUI6whYR2AWN39TghtprYJHzUmp6D13rUHTNZbz9HqUbqcvoY2aFMlhLA8m8L05Syb6wk96zPW8Qyu3GbFUJ',
 				'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(response)

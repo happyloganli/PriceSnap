@@ -78,7 +78,7 @@ function showResultWindow(products) {
     // Clear loading content and add header
     floatingWindow.innerHTML = `
         <div style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; position: relative;">
-            <img src="https://assets.leetcode.com/users/Joshuaarr/avatar_1710399234.png" alt="Icon" style="width: 24px; height: 24px; margin-right: 8px;">
+            <img src="https://i.postimg.cc/13NCK7Qt/temp-Imagezumi-Hc.avif" alt="Icon" style="width: 24px; height: 24px; margin-right: 8px;">
             <h4 style="margin: 0; font-size: 20px;">PriceSnap</h4>
             <button id="closeFloatingWindow" style="
                 position: absolute;
