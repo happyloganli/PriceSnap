@@ -1,5 +1,7 @@
 # PriceSnap
 
+![1731199066658](C:\Users\86188\AppData\Roaming\Typora\typora-user-images\1731199066658.png)
+
 Hack This Fall 2024 Project.
 
 This application consists of a Chrome extension and a Golang backend service that work together to enhance your shopping experience on Facebook Marketplace. When browsing items on Facebook Marketplace, the extension allows you to search for similar products on Amazon and eBay, helping you determine if you're getting a good deal.
@@ -10,6 +12,10 @@ This application consists of a Chrome extension and a Golang backend service tha
 - **Golang Backend Service**: Performs the scraping of Amazon and eBay to gather product details and returns the data to the Chrome extension.
 
 ## Getting Started
+
+**Update 11/9:**
+
+The backend server is deployed on the cloud now. So you don't need to run the backend server locally. Instead, you can skip to step 3[Load Chrome Extension] and enjoy!
 
 ### Prerequisites
 
