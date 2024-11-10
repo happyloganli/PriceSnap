@@ -12,11 +12,19 @@ This application consists of a Chrome extension and a Golang backend service tha
 - **Chrome Extension**: Provides a UI and browser interaction to trigger searches for similar items on Amazon and eBay when browsing Facebook Marketplace.
 - **Golang Backend Service**: Performs the scraping of Amazon and eBay to gather product details and returns the data to the Chrome extension.
 
-## Getting Started
+## Quick Start
 
-**Update 11/9:**
+**Directly Load the Chrome Extension**
 
-The backend server is deployed on the cloud now. So you don't need to run the backend server locally. Instead, you can skip to step 3[Load Chrome Extension] and enjoy!
+- Open Chrome and go to `chrome://extensions/`.
+
+- Enable "Developer mode" (toggle is in the upper-right corner).
+
+- Select "Load unpacked" and choose the extension folder in this project.
+
+  
+
+## Local Run
 
 ### Prerequisites
 
