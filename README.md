@@ -1,6 +1,7 @@
 # PriceSnap
 
-![1731199066658](C:\Users\86188\AppData\Roaming\Typora\typora-user-images\1731199066658.png)
+![1731199266462](https://github.com/user-attachments/assets/a2c0d6e7-b552-4e6a-b21d-9b4424c93a91)
+
 
 Hack This Fall 2024 Project.
 
