@@ -21,6 +21,10 @@ This application consists of a Chrome extension and a Golang backend service tha
 - Enable "Developer mode" (toggle is in the upper-right corner).
 
 - Select "Load unpacked" and choose the extension folder in this project.
+  
+- Open Facebook Market Place, browse item details, there will be a search button for your searching:
+  ![image](https://github.com/user-attachments/assets/102711ad-1c4e-4173-b4c5-5ee4d6704142)
+
 
   
 
