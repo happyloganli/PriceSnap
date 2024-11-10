@@ -19,7 +19,7 @@ type RequestBody struct {
 	Details     string `json:"details"`
 	Description string `json:"description"`
 }
-
+// Response struct to return the search keywords and scraped products
 type Response struct {
 	SearchKeyWords string                        `json:"searchKeyWords"`
 	Products       map[string][]scrapers.Product `json:"products"`
@@ -53,7 +53,7 @@ func SearchItemHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Generate Amazon and eBay links
+	// Scrape products from Amazon and eBay
 	products, _ := scrapeProducts(searchKeyWords)
 
 	response := Response{
