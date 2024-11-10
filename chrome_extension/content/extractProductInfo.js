@@ -45,6 +45,7 @@ function extractProductId() {
     console.log('Current page URL: ' + pageUrl);
     const productId = pageUrl.split('/')[5];
     console.log('product id: ' + productId);
+    return productId;
 }
 
 // extract product informations when called
