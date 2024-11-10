@@ -7,18 +7,22 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// amazonScraper scrapes product data from an Amazon page and returns a list of products
-func ScrapeAmazon(url string) ([]Product) {
-	
+// ScrapeAmazon scrapes product data from an Amazon page and returns a list of products
+func ScrapeAmazon(url string) ([]Product, error) {
+
 	// Make an HTTP GET request to the Amazon page
-	req:= NewRequestBase(url, http.MethodGet, nil)
+	req := NewRequestBase(url, http.MethodGet, nil)
 	body, err := req.SendRequest()
-	
+	if err != nil {
+		log.Printf("Error sending HTTP request: %v", err)
+		return nil, err
+	}
+
 	// Load the HTML document into goquery
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
 	if err != nil {
 		log.Fatalf("Error loading HTML into goquery: %v", err)
-		return nil
+		return nil, err
 	}
 
 	// Slice to hold all product data
@@ -34,7 +38,7 @@ func ScrapeAmazon(url string) ([]Product) {
 
 		// Extract product image
 		imageLink, _ := s.Find(".s-image").Attr("src")
-		image, _:=req.ImageURLToBase64(imageLink)
+		image, _ := req.ImageURLToBase64(imageLink)
 
 		// Extract product link
 		productLink, _ := s.Find(".a-link-normal.s-underline-text.s-underline-link-text.s-link-style").Attr("href")
@@ -54,5 +58,5 @@ func ScrapeAmazon(url string) ([]Product) {
 	})
 
 	// Return the list of products
-	return products
+	return products, nil
 }

@@ -2,13 +2,15 @@ package middleware
 
 import (
 	"net/http"
+	"os"
 )
 
-// allowCORS allows cross-origin requests
-func AllowCORS(next http.Handler, extensionID string) http.Handler {
+// AllowCORS allows cross-origin requests
+func AllowCORS(next http.Handler) http.Handler {
+	// return a middleware handler that adds CORS headers to the response
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Set CORS headers to allow your Chrome extension or specific domain
-		w.Header().Set("Access-Control-Allow-Origin", "chrome-extension://"+extensionID)
+		w.Header().Set("Access-Control-Allow-Origin", "chrome-extension://"+os.Getenv("EXTENSION_ID"))
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")

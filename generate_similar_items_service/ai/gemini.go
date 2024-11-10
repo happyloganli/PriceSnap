@@ -11,10 +11,11 @@ import (
 
 var mockAIResonse = "CATLINK+automatic+Litterbox+with+Ramp"
 
+// PromptAI returns search keywords based on the provided prompt and AI platform.
 func PromptAI(ctx context.Context, prompt string, aiPlatform string) (string, error) {
 	if os.Getenv("DEBUG") == "true" {
 		fmt.Printf("Debug mode enabled. Returning hardcoded search keywords.\n")
-		return mockAIResonse, nil		
+		return mockAIResonse, nil
 	}
 	if aiPlatform == "gemini" {
 		return requestGemini(ctx, prompt)
@@ -22,7 +23,7 @@ func PromptAI(ctx context.Context, prompt string, aiPlatform string) (string, er
 	return "", fmt.Errorf("unsupported AI platform: %s", aiPlatform)
 }
 
-// ConnectGeminiAI connects to Gemini AI and generates the search keywords based on the provided prompt.
+// ConnectGeminiAI connects to Gemini AI and generates the content based on the provided prompt.
 func requestGemini(ctx context.Context, prompt string) (string, error) {
 
 	// Set up Gemini client
@@ -48,12 +49,13 @@ func requestGemini(ctx context.Context, prompt string) (string, error) {
 
 	// Assuming the generated text is in the first candidate's text field
 	searchKeywords, err := buildResponseString(resp.Candidates[0].Content.Parts)
-	if err!= nil { 
+	if err != nil {
 		return "", err
 	}
 	return searchKeywords, nil
 }
 
+// buildResponseString builds a string from the provided genai.parts.
 func buildResponseString(parts []genai.Part) (string, error) {
 
 	var builder strings.Builder

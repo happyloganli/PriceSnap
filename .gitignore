@@ -22,16 +22,12 @@ yarn-error.log
 # Logs
 *.log
 
-# IDE and editor-specific files (e.g., for VSCode or JetBrains)
+# IDE and editor-specific files
 .vscode/
 .idea/
 *.sublime-workspace
 *.sublime-project
 
-# OS-specific files (e.g., for macOS, Linux, Windows)
+# OS-specific files 
 .DS_Store
 Thumbs.db
-
-# npm or yarn lock files (if you don't want to commit them)
-# yarn.lock
-# package-lock.json
