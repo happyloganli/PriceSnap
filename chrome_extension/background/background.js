@@ -30,6 +30,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				}
 				fetchResponse = await result.json();
 				console.log("successfully fetched:", fetchResponse);
+				console.log("item array:", fetchResponse.products.Ebay);
 				state = 'success';
 			})
 			.catch(error => {
@@ -61,7 +62,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             const interval = setInterval(() => {
                 if (state === 'success') {
                     clearInterval(interval);
-                    chrome.runtime.sendMessage({ type: 'showResultWindow', data: fetchResponse });
+                    chrome.runtime.sendMessage({ type: 'showResultWindow', payload: fetchResponse.products.Ebay });
                 } else if (state === 'error') {
                     clearInterval(interval);
                     chrome.runtime.sendMessage({ type: 'showTimeoutWindow' });
@@ -70,7 +71,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
 		else if (state === 'success') {
             // If successfully fetched, show the result window
-            chrome.tabs.sendMessage(sender.tab.id, { type: 'showResultWindow', data: fetchResponse });
+            chrome.tabs.sendMessage(sender.tab.id, { type: 'showResultWindow', payload: fetchResponse.products.Ebay });
         }
 		else if (state === 'error') {
             // If there was an error, show timeout window
