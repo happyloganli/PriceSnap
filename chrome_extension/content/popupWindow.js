@@ -8,10 +8,11 @@ function initializeFloatingWindow() {
         floatingWindow.style.top = "56px";
         floatingWindow.style.right = "0px";
         floatingWindow.style.width = "380px";
-        floatingWindow.style.height = "150px"; // Initial height for loading state
+        floatingWindow.style.height = "178px"; // Initial height for loading state
         floatingWindow.style.padding = "0";
         floatingWindow.style.backgroundColor = "#fff"; // Set background color to white
-        floatingWindow.style.borderRadius = "8px";
+        floatingWindow.style.borderRadius = "0";
+        floatingWindow.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.4)"; // Stronger shadow for distinction
         floatingWindow.style.zIndex = "9999";
         floatingWindow.style.overflow = "hidden"; // Prevent scrolling in loading state
         document.body.appendChild(floatingWindow);
@@ -22,6 +23,19 @@ function initializeFloatingWindow() {
 function showLoadingWindow() {
     initializeFloatingWindow();
     floatingWindow.innerHTML = `
+        <div style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; position: relative;">
+            <img src="https://assets.leetcode.com/users/Joshuaarr/avatar_1710399234.png" alt="Icon" style="width: 24px; height: 24px; margin-right: 8px;">
+            <h4 style="margin: 0; font-size: 20px;">PriceSnap</h4>
+            <button id="closeFloatingWindow" style="
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                padding: 4px 8px;
+                cursor: pointer;
+                border: none;
+                background: #f5f5f5;
+                border-radius: 4px;">X</button>
+        </div>
         <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
             <h4 style="margin: 0; font-size: 18px;">Loading Products...</h4>
             <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXlhaDZ5eHh2NXc5MzVpY3JqazJxMWpycGpueTVzMXBicHdwMHNjcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/emySgWo0iBKWqni1wR/giphy.gif" 
@@ -34,7 +48,20 @@ function showLoadingWindow() {
 function showTimeoutWindow() {
     initializeFloatingWindow();
     floatingWindow.innerHTML = `
-        <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+        <div style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; position: relative;">
+            <img src="https://assets.leetcode.com/users/Joshuaarr/avatar_1710399234.png" alt="Icon" style="width: 24px; height: 24px; margin-right: 8px;">
+            <h4 style="margin: 0; font-size: 20px;">PriceSnap</h4>
+            <button id="closeFloatingWindow" style="
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                padding: 4px 8px;
+                cursor: pointer;
+                border: none;
+                background: #f5f5f5;
+                border-radius: 4px;">X</button>
+        </div>
+        <div style="background-color: #fff; padding: 20px; text-align: center;">
             <h4 style="margin: 0; font-size: 18px; color: #d9534f;">Unable to find result</h4>
             <p style="font-size: 14px; color: #555;">Please try again later.</p>
         </div>
@@ -47,10 +74,12 @@ function showResultWindow(products) {
     floatingWindow.style.height = "70vh"; // Adjust as needed for desired overall height
     floatingWindow.style.overflow = "hidden"; // Hide overflow on main container to control scrolling in cards area
 
+
     // Clear loading content and add header
     floatingWindow.innerHTML = `
-        <div style="text-align: center; padding: 10px; border-bottom: 1px solid #ddd; position: relative;">
-            <h4 style="margin: 0; font-size: 18px;">Product List</h4>
+        <div style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; position: relative;">
+            <img src="https://assets.leetcode.com/users/Joshuaarr/avatar_1710399234.png" alt="Icon" style="width: 24px; height: 24px; margin-right: 8px;">
+            <h4 style="margin: 0; font-size: 20px;">PriceSnap</h4>
             <button id="closeFloatingWindow" style="
                 position: absolute;
                 right: 10px;
@@ -59,9 +88,12 @@ function showResultWindow(products) {
                 cursor: pointer;
                 border: none;
                 background: #f5f5f5;
-                border-radius: 4px;">Close</button>
+                border-radius: 4px;">X</button>
         </div>
-        <div id="productCardsContainer" style="height: calc(70vh - 50px); overflow-y: auto; padding: 10px;">
+        <div style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;">
+            <h4 style="margin: 0; font-size: 16px;">Product List</h4>
+        </div>
+        <div id="productCardsContainer" style="height: calc(70vh - 100px); overflow-y: auto; padding: 10px;">
         </div>
     `;
 
@@ -88,7 +120,7 @@ function showResultWindow(products) {
                 </div>
                 
                 <!-- Title and Price on the Right Side, Adjusted Spacing -->
-                <div style="flex-grow: 1; padding-left: 10px;">
+                <div style="flex-grow: 1; padding-left: 10px; max-width: 200px;">
                     <h4 style="margin: 0 0 5px; font-size: 16px; color: #333;">${title}</h4>
                     <p style="font-size: 14px; font-weight: bold; color: #555; margin: 0 0 10px;">Price: ${price}</p>
                     <a href="${link}" target="_blank" style="
