@@ -99,7 +99,8 @@ function showResultWindow(products) {
 
     // Add product cards to the container
     const productCardsContainer = document.getElementById("productCardsContainer");
-    products.slice(0, 5).forEach(({ title, price, imageUrl, link }) => {
+    console.log(products);
+    products.slice(0, 5).forEach(({ Title, Price, Image, ProductLink }) => {
         productCardsContainer.innerHTML += `
             <div style="
                 display: flex;
@@ -113,7 +114,7 @@ function showResultWindow(products) {
                 
                 <!-- Image Container, Smaller Square -->
                 <div style="width: 100px; height: 100px; overflow: hidden; border-radius: 8px; margin-right: 15px;">
-                    <img src="${imageUrl}" alt="${title}" style="
+                    <img src="data:image/jpeg;base64,${Image}" alt="${Title}" style="
                         width: 100%;
                         height: 100%;
                         object-fit: cover;">
@@ -121,9 +122,9 @@ function showResultWindow(products) {
                 
                 <!-- Title and Price on the Right Side, Adjusted Spacing -->
                 <div style="flex-grow: 1; padding-left: 10px; max-width: 200px;">
-                    <h4 style="margin: 0 0 5px; font-size: 16px; color: #333;">${title}</h4>
-                    <p style="font-size: 14px; font-weight: bold; color: #555; margin: 0 0 10px;">Price: ${price}</p>
-                    <a href="${link}" target="_blank" style="
+                    <h4 style="margin: 0 0 5px; font-size: 16px; color: #333;">${Title}</h4>
+                    <p style="font-size: 14px; font-weight: bold; color: #555; margin: 0 0 10px;">Price: ${Price}</p>
+                    <a href="${ProductLink}" target="_blank" style="
                         display: inline-block;
                         padding: 6px 10px;
                         background-color: #0074cc;
