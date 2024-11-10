@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// amazonScraper scrapes product data from an Amazon page and returns a list of products
+// ScrapeEbay scrapes product data from an Amazon page and returns a list of products
 func ScrapeEbay(url string) ([]Product, error) {
 
 	// Make an HTTP GET request to the Ebay page
