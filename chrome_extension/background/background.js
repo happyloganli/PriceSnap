@@ -61,6 +61,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             // Poll until successful fetching or timeout
             const interval = setInterval(() => {
+				console.log('check status');
                 if (state === 'success') {
                     clearInterval(interval);
                     chrome.runtime.sendMessage({ type: 'showResultWindow', payload: fetchResponse.products.Ebay });
