@@ -90,7 +90,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 } else if (state === 'error') {
                     clearInterval(interval);
                     chrome.tabs.sendMessage(sender.tab.id, { type: 'showTimeoutWindow' });
-                }
+                } else if (state === 'idle') {
+					clearInterval(interval);
+                    chrome.tabs.sendMessage(sender.tab.id, { type: 'closeWindow' });
+				}
             }, 500); // Check every 500ms
         }
 		else if (state === 'success') {
@@ -102,4 +105,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             chrome.tabs.sendMessage(sender.tab.id, { type: 'showTimeoutWindow' });
         }
     }
+	else if (message.type === 'minimizeWindow') {
+		state = 'idle';
+		chrome.tabs.sendMessage(sender.tab.id, { type: 'showButton' });
+	}
 });

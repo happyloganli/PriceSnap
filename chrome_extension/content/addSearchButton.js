@@ -39,7 +39,6 @@ addSearchButton();
 
 // Listen for messages and display the button
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Received message:", message.type);
     if (message.type === 'showButton') {
         addSearchButton();
     }
