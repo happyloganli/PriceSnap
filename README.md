@@ -18,7 +18,8 @@ PriceSnap makes shopping on Facebook Marketplace easier. With one click, you can
 - Select **"Load unpacked"** and choose the **"chrome_extension"** folder in this project.
   
 - Open Facebook Market Place, open item details in another tab to trigger the extension, there will be a search button for your searching:
-![image](https://github.com/user-attachments/assets/0c5c37dd-02f3-4410-b55f-6b98a82cbd2a)
+![image](https://github.com/user-attachments/assets/6061b0a8-affa-4a6b-9c31-700805c16e22)
+
 
 ## Local Run
 
