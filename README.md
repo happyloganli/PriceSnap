@@ -3,14 +3,9 @@
 ![1731199266462](https://github.com/user-attachments/assets/a2c0d6e7-b552-4e6a-b21d-9b4424c93a91)
 
 
-Hack This Fall 2024 Project.
+## Hack This Fall 2024 Project
 
-This application consists of a Chrome extension and a Golang backend service that work together to enhance your shopping experience on Facebook Marketplace. When browsing items on Facebook Marketplace, the extension allows you to search for similar products on Amazon and eBay, helping you determine if you're getting a good deal.
-
-## Project Structure
-
-- **Chrome Extension**: Provides a UI and browser interaction to trigger searches for similar items on Amazon and eBay when browsing Facebook Marketplace.
-- **Golang Backend Service**: Performs the scraping of Amazon and eBay to gather product details and returns the data to the Chrome extension.
+PriceSnap makes shopping on Facebook Marketplace easier. With one click, you can search for similar items on eBay to check prices and see if you're getting a good deal.
 
 ## Quick Start
 
@@ -18,11 +13,11 @@ This application consists of a Chrome extension and a Golang backend service tha
 
 - Open Chrome and go to `chrome://extensions/`.
 
-- Enable "Developer mode" (toggle is in the upper-right corner).
+- Enable **Developer mode** (toggle is in the upper-right corner).
 
-- Select "Load unpacked" and choose the extension folder in this project.
+- Select **Load unpacked** and choose the **chrome_extension** folder in this project.
   
-- Open Facebook Market Place, browse item details, there will be a search button for your searching:
+- Open Facebook Market Place, open item details in another tab to trigger the extension, there will be a search button for your searching:
   ![image](https://github.com/user-attachments/assets/102711ad-1c4e-4173-b4c5-5ee4d6704142)
 
 
@@ -65,4 +60,4 @@ go run .
 
 - Open Chrome and go to `chrome://extensions/`.
 - Enable "Developer mode" (toggle is in the upper-right corner).
-- Select "Load unpacked" and choose the extension folder in this project.
+- Select "Load unpacked" and choose the "chrome_extension" folder in this project.
