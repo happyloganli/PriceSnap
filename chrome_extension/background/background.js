@@ -1,19 +1,34 @@
+import { getFromStorage } from "./storage.js";
+
 let state = 'idle'; // can be 'fetching', 'success', 'error'
-let fetchResponse = null;
+let ebayItems = null;
 let fetchTimeout = null;
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("Background script received message:", message);
     if (message.type === 'search') {
 		console.log("call server");
-        // // Start fetching
+        // Start fetching
         state = 'fetching';
-        fetchResponse = null;
+        ebayItems = null;
 
 		// get product info
 		console.log('extract product info');
 		chrome.tabs.sendMessage(sender.tab.id, { type: 'extractProductInfo' }, async (response) => {
 			console.log(response);
+
+			try {
+				const storedItem = await getFromStorage(response.itemID);
+		
+				if (storedItem !== undefined) {
+					console.log('Item found in storage:', storedItem);
+					state = 'success';
+					ebayItems = storedItem;
+					return; // Exit early if the item is already in storage
+				}
+			} catch (error) {
+				console.error('Error checking value in storage:', error);
+			}
 
 			const serverUrl = 'https://generatesimilaritemsservice-599683195183.us-west4.run.app/v1/items/search'
 
@@ -29,14 +44,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				if (!result.ok) {
 				throw new Error(`Server error: ${result.status}`);
 				}
-				fetchResponse = await result.json();
-				console.log("successfully fetched:", fetchResponse);
-				console.log("item array:", fetchResponse.products.Ebay);
+				const fetchResponse = await result.json();
+				ebayItems = fetchResponse.products.Ebay
+				console.log("successfully fetched:", ebayItems);
+				console.log("item array:", ebayItems);
 				state = 'success';
+				chrome.storage.local.set({[response.itemID]: ebayItems}, () => {
+					if (chrome.runtime.lastError) {
+						console.error('Error storing data:', chrome.runtime.lastError);
+					}
+				})
 			})
 			.catch(error => {
 					state = 'error';
-					fetchResponse = error;
+					ebayItems = error;
 					console.log("error fetching, error:" + error);
 			})
 			.finally(() => {
@@ -48,7 +69,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				if (state === 'fetching') {
 					console.log("timeout!");
 					state = 'error';
-					fetchResponse = 'Timeout';
+					ebayItems = 'Timeout';
 				}
 			}, 60000); // Timeout after 1 minute
 		});
@@ -63,17 +84,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             const interval = setInterval(() => {
 				console.log('check status');
                 if (state === 'success') {
+					console.log("successfully retrieve similar items, call popup window to display")
                     clearInterval(interval);
-                    chrome.runtime.sendMessage({ type: 'showResultWindow', payload: fetchResponse.products.Ebay });
+                    chrome.tabs.sendMessage(sender.tab.id, { type: 'showResultWindow', payload: ebayItems });
                 } else if (state === 'error') {
                     clearInterval(interval);
-                    chrome.runtime.sendMessage({ type: 'showTimeoutWindow' });
+                    chrome.tabs.sendMessage(sender.tab.id, { type: 'showTimeoutWindow' });
                 }
             }, 500); // Check every 500ms
         }
 		else if (state === 'success') {
             // If successfully fetched, show the result window
-            chrome.tabs.sendMessage(sender.tab.id, { type: 'showResultWindow', payload: fetchResponse.products.Ebay });
+            chrome.tabs.sendMessage(sender.tab.id, { type: 'showResultWindow', payload: ebayItems });
         }
 		else if (state === 'error') {
             // If there was an error, show timeout window
