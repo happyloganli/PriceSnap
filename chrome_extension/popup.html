@@ -1,9 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Hello World</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PriceSnap</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Popup Container */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        width: 350px;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    /* Card Container */
+    .card {
+      background-color: #ffffff;
+      color: #333;
+      width: 100%;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* Header */
+    h1 {
+      font-size: 26px;
+      color: #007bff;
+      margin-bottom: 15px;
+    }
+
+    /* Text Styling */
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    p strong {
+      color: #007bff;
+    }
+
+    /* Image */
+    img {
+      margin: 20px auto;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+  </style>
 </head>
 <body>
-    <h3>Hello World</h3>
+  <div class="card">
+    <h1>Welcome to PriceSnap</h1>
+    <p>PriceSnap simplifies shopping on Facebook Marketplace by letting you compare prices on eBay with a single click.</p>
+    <p><strong>How to use:</strong></p>
+    <p>1. Open Facebook Marketplace and view item details in another tab.</p>
+    <p>2. A search button will appear:</p>
+    <img src="icons/searchButton.png" alt="Search Button">
+  </div>
 </body>
 </html>
